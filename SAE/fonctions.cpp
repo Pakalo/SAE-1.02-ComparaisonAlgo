@@ -120,35 +120,44 @@ void verifTri(const std::vector<int>& tab, const std::string& algoName)
 
 /*
 * Tri par selection 
+* 
+* tab : est un tableau d'entier générer de maniére aléatoire
+* 
+* return -> Un entier correspondant au nombre de comparaison
 */
 
 
 
 size_t triSelection(std::vector<int> tab)
 {
+    //Initialisation des variable
     int n = tab.size();
     unsigned int cpt = 0;
+    //Permet parcourir le tableau une premiére fois
     for (int i = 0; i <= n - 2; i++)
     {
         int min = i;
+        //Parcours les tableau une deuxiéme fois pour déterminer le plus petit 
         for (int j = i + 1; j <= n - 1; j++)
         {
+            //Compare l'élément actuel avec le mininimum actuel si l'élément actuel est plus petit que min il change le min
             if (tab[j] < tab[min])
             {
                 min = j;
-                cpt++;
+                cpt++; // compteur de comparaison
             }
-
+            //Si le minimum n'est pas l'élément a l'indice actuel alors on interchange
             if (min != i)
             {
+                //Swap des valeurs
                 int temp = tab[i];
                 tab[i] = tab[min];
                 tab[min] = temp;
-                cpt++;
+                cpt++; //compteur de comparaison
             }
         }
 
     }
-    verifTri(tab);
-    return cpt;
+    verifTri(tab); //Verifiction de la justesse du trie
+    return cpt; //Retourne le nombre de comparaison
 }
