@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+/.vs/SAE
+/SAE/x64/Debug
+/x64/Debug
+/SAE/SAE.vcxproj.user
