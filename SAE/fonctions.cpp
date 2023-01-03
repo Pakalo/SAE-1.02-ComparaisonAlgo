@@ -127,7 +127,7 @@ void verifTri(const std::vector<int>& tab, const std::string& algoName)
 size_t triSelection(std::vector<int> tab)
 {
     int n = tab.size();
-    int cpt = 0;
+    unsigned int cpt = 0;
     for (int i = 0; i <= n - 2; i++)
     {
         int min = i;
