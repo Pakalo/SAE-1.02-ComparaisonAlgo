@@ -27,4 +27,4 @@ void verifTri(const std::vector<int>& tab, const std::string& algoName = {});
 
 
 // Tri par selection
-std::vector<int> triSelection(size_t N);
+size_t triSelection(std::vector<int> tab);
