@@ -124,31 +124,25 @@ void verifTri(const std::vector<int>& tab, const std::string& algoName)
 
 
 
-size_t triSelection(std::vector<int> tab)
+unsigned int triSelection(std::vector<int> tab)
 {
     int n = tab.size();
     unsigned int cpt = 0;
     for (int i = 0; i <= n - 2; i++)
     {
         int min = i;
-        for (int j = i + 1; j <= n - 1; j++)
+        for (int j = i + 1; j <= n-1; j++) 
         {
+            cpt++;
             if (tab[j] < tab[min])
             {
                 min = j;
-                cpt++;
-            }
-
-            if (min != i)
-            {
-                int temp = tab[i];
-                tab[i] = tab[min];
-                tab[min] = temp;
-                cpt++;
             }
         }
-
+            if (min != i)
+            {
+                std::swap(tab[i], tab[min]);
+            }
     }
-    verifTri(tab);
     return cpt;
 }
