@@ -122,7 +122,7 @@ void verifTri(const std::vector<int>& tab, const std::string& algoName)
 * Tri par selection 
 */
 
-unsigned int triSelection(std::vector<int> tab)
+unsigned int triSelection(std::vector<int> &tab)
 {
     int n = tab.size();
     unsigned int cpt = 0;
@@ -150,7 +150,7 @@ unsigned int triSelection(std::vector<int> tab)
 * Tri a bulles
 */
 
-unsigned int triBulles(std::vector<int> tab)
+unsigned int triBulles(std::vector<int> &tab)
 {
     unsigned int cpt = 0;
     for (size_t i = 0; i < tab.size() - 1; i++)
@@ -167,4 +167,41 @@ unsigned int triBulles(std::vector<int> tab)
 
     verifTri(tab);
     return cpt;
+}
+
+
+/*
+* Tri a bulles optimisé
+*/
+unsigned int triBullesOpti(std::vector<int> &tab)
+{
+    unsigned int cpt = 0;
+    for (int i = tab.size() - 1; i > 0; i--)
+    {
+        bool tableau_trie = true;
+        for (int j = 0; j < i; j++)
+        {
+            cpt++;
+            if (tab[j + 1] < tab[j])
+            {
+                std::swap(tab[j + 1], tab[j]);
+                tableau_trie = false;
+            }
+        }
+        if (tableau_trie)
+        {
+            break;
+        }
+    }
+    return cpt;
+}
+
+
+
+/*
+* Tri a bulles optimisé
+*/
+unsigned int triPeigne(std::vector<int> &tab)
+{
+    return 0;
 }

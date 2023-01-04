@@ -1,6 +1,7 @@
 #include "fonctions.h"
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 
 int main()
@@ -23,33 +24,69 @@ int main()
 
 
     {
-        out << "N; Aleat Sélect.; PresqueTri Sélect.; PresqueTriDeb Sélect.; PresqueTriDebFin Sélect.; PresqueTriFin Sélect\n";
-
-        for (int i = 3; i <= 20; i++)
+        for (int i = 0; i<3;i++)
         {
-
-            out << i << ";";
-            out << triSelection(initTabAleat(i)) << ";";
-            out << triSelection(initTabPresqueTri(i)) << ";";
-            out << triSelection(initTabPresqueTriDeb(i)) << ";";
-            out << triSelection(initTabPresqueTriDebFin(i)) << ";";
-            out << triSelection(initTabPresqueTriFin(i)) << "\n";
+            out << "N; Aleat Sélect.; PresqueTri Sélect.; PresqueTriDeb Sélect.; PresqueTriDebFin Sélect.; PresqueTriFin Sélect;";
         }
-    }
+        out << "N²; N*ln(N)\n";
+        
+        for (int i = 3; i < 100; i += 2)
+        {
+            std::vector<int> tabAleat = initTabAleat(i);
+            std::vector<int> tabPt = initTabPresqueTri(i);
+            std::vector<int> tabPtd = initTabPresqueTriDeb(i);
+            std::vector<int> tabPtdf = initTabPresqueTriDebFin(i);
+            std::vector<int> tabPtf = initTabPresqueTriFin(i);
+            out << i << ";";
+            out << triSelection(tabAleat) << ";";
+            out << triSelection(tabPt) << ";";
+            out << triSelection(tabPtd) << ";";
+            out << triSelection(tabPtdf) << ";";
+            out << triSelection(tabPtf) << ";";
+            verifTri(tabAleat);
+            verifTri(tabPt);
+            verifTri(tabPtd);
+            verifTri(tabPtdf);
+            verifTri(tabPtf);
 
+            tabAleat = initTabAleat(i);
+            tabPt = initTabPresqueTri(i);
+            tabPtd = initTabPresqueTriDeb(i);
+            tabPtdf = initTabPresqueTriDebFin(i);
+            tabPtf = initTabPresqueTriFin(i);
+            out << i << ";";
+            out << triBulles(tabAleat) << ";";
+            out << triBulles(tabPt) << ";";
+            out << triBulles(tabPtd) << ";";
+            out << triBulles(tabPtdf) << ";";
+            out << triBulles(tabPtf) << ";";
+            verifTri(tabAleat);
+            verifTri(tabPt);
+            verifTri(tabPtd);
+            verifTri(tabPtdf);
+            verifTri(tabPtf);
 
+            tabAleat = initTabAleat(i);
+            tabPt = initTabPresqueTri(i);
+            tabPtd = initTabPresqueTriDeb(i);
+            tabPtdf = initTabPresqueTriDebFin(i);
+            tabPtf = initTabPresqueTriFin(i);
+            out << i << ";";
+            out << triBullesOpti(tabAleat) << ";";
+            out << triBullesOpti(tabPt) << ";";
+            out << triBullesOpti(tabPtd) << ";";
+            out << triBullesOpti(tabPtdf) << ";";
+            out << triBullesOpti(tabPtf) << ";";
+            verifTri(tabAleat);
+            verifTri(tabPt);
+            verifTri(tabPtd);
+            verifTri(tabPtdf);
+            verifTri(tabPtf);
+        
 
-    out << "\n\n\nN; Aleat Sélect.; PresqueTri Sélect.; PresqueTriDeb Sélect.; PresqueTriDebFin Sélect.; PresqueTriFin Sélect\n";
-
-    for (int i = 3; i <= 20; i++)
-    {
-
-        out << i << ";";
-        out << triBulles(initTabAleat(i)) << ";";
-        out << triBulles(initTabPresqueTri(i)) << ";";
-        out << triBulles(initTabPresqueTriDeb(i)) << ";";
-        out << triBulles(initTabPresqueTriDebFin(i)) << ";";
-        out << triBulles(initTabPresqueTriFin(i)) << "\n";
+            out << i * i << ";";
+            out << i * log(i) << "\n";
+        }
     }
 
 }

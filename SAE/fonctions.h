@@ -28,7 +28,13 @@ void verifTri(const std::vector<int>& tab, const std::string& algoName = {});
 
 
 // Tri par selection
-unsigned int triSelection(std::vector<int> tab);
+unsigned int triSelection(std::vector<int> &tab);
 
 // Tri a bulles
-unsigned int triBulles(std::vector<int> tab);
+unsigned int triBulles(std::vector<int> &tab);
+
+// Tri a bulles optimise
+unsigned int triBullesOpti(std::vector<int> &tab);
+
+// Tri a peigne
+unsigned int triPeigne(std::vector<int> &tab);
