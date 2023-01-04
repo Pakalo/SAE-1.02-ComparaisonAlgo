@@ -124,14 +124,14 @@ void verifTri(const std::vector<int>& tab, const std::string& algoName)
 
 unsigned int triSelection(std::vector<int> &tab)
 {
-    int n = tab.size();
+    size_t n = tab.size(); // Initialisation de n en fonction de la taille du tableau
     unsigned int cpt = 0;
-    for (int i = 0; i <= n - 2; i++)
+    for (int i = 0; i <= n - 2; i++) // 
     {
         int min = i;
         for (int j = i + 1; j <= n-1; j++) 
         {
-            cpt++;
+            cpt++; // Compteur pour connaitre le nombre de comparaisons d’éléments
             if (tab[j] < tab[min])
             {
                 min = j;
@@ -142,7 +142,7 @@ unsigned int triSelection(std::vector<int> &tab)
                 std::swap(tab[i], tab[min]);
             }
     }
-    return cpt;
+    return cpt; // Renvoie cpt, ce qui correspond au nombre de comparaisons d’éléments
 }
 
 
@@ -153,7 +153,7 @@ unsigned int triSelection(std::vector<int> &tab)
 unsigned int triBulles(std::vector<int> &tab)
 {
     unsigned int cpt = 0;
-    for (size_t i = 0; i < tab.size() - 1; i++)
+    for (size_t i = 0; i < tab.size() - 1; i++) // Double boucle pour parcourir chaque élément du tableau
     {
         for (size_t j = 0; j < tab.size() - i - 1; j++)
         {
@@ -176,7 +176,7 @@ unsigned int triBulles(std::vector<int> &tab)
 unsigned int triBullesOpti(std::vector<int> &tab)
 {
     unsigned int cpt = 0;
-    for (int i = tab.size() - 1; i > 0; i--)
+    for (size_t i = tab.size() - 1; i > 0; i--)
     {
         bool tableau_trie = true;
         for (int j = 0; j < i; j++)
@@ -203,5 +203,75 @@ unsigned int triBullesOpti(std::vector<int> &tab)
 */
 unsigned int triPeigne(std::vector<int> &tab)
 {
-    return 0;
+    size_t intervalle = tab.size();
+    bool echange;
+    int cpt = 0;
+
+    while (intervalle > 1 || echange == true)
+    {
+        intervalle = int(intervalle / 1.3);
+        if (intervalle < 1)
+            intervalle = 1;
+
+        int i = 0;
+        echange = false;
+
+        while (i < tab.size() - intervalle)
+        {
+            cpt++;
+            if (tab[i] > tab[i + intervalle])
+            {
+                std::swap(tab[i], tab[i + intervalle]);
+                echange = true;
+            }
+            i = i + 1;
+        }
+    }
+
+    verifTri(tab);
+    return cpt;
 }
+
+
+
+unsigned int partitionner(std::vector<int> tab, int premier, int dernier, int pivot, unsigned int& cpt)
+{
+    std::swap(tab[pivot], tab[dernier]);
+    int j = premier;
+    for (size_t i = premier; i < dernier - 1; i++)
+    {
+        if (tab[i] <= tab[dernier])
+        {
+            std::swap(tab[i], tab[j]);
+            j++;
+        }
+        cpt++;
+    }
+    std::swap(tab[dernier], tab[j]);
+    return j;
+}
+
+
+unsigned int choixPivot(std::vector<int> tab, int premier, int dernier)
+{
+    //Initialisation de l'aléatoire
+    std::srand(std::time(nullptr));
+    std::rand(); std::rand();
+    //Cette fonction génére un nombre aléatoire entre deux nombres
+    return static_cast<unsigned int>(static_cast<double>(dernier - premier + 1) * std::rand() / (RAND_MAX + 1)) + premier;
+}
+
+
+unsigned int triRapide(std::vector<int> tab, int premier, int dernier)
+{
+    unsigned int cpt = 0;
+    if (premier < dernier)
+    {
+        int pivot = choixPivot(tab, premier, dernier);
+        pivot = partitionner(tab, premier, dernier, pivot, cpt);
+        cpt += triRapide(tab, premier, pivot - 1);
+        cpt += triRapide(tab, pivot + 1, dernier);
+    }
+    return cpt;
+}
+

@@ -2,91 +2,71 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
-
+#include <array>
 
 int main()
 {
 
 
-	// Initialisation de l'aleatoire
-	std::srand(std::time(nullptr));
-	std::rand();
-	std::rand();
+    // Initialisation de l'aleatoire
+    std::srand(std::time(nullptr));
+    std::rand();
+    std::rand();
 
 
-	/*std::cout << triSelection(initTabAleat(6844));*/
-	
+    const int nbrCol = 100; //Défini le nombre de colone du tableau
 
+    //Ouverture du fichier 
+    std::ofstream out("outputUTF8.csv");
+    if (!out.is_open())
+        std::cerr << "Problème d'ouverture du fichier \"outputUTF8.csv\".\n";
 
-	std::ofstream out("outputUTF8.csv");
-	if (!out.is_open())
-		std::cerr << "Problème d'ouverture du fichier \"outputUTF8.csv\".\n";
+    typedef std::vector<int>(*function_init_ptr)(size_t N);//Définition du type du pointeur pour les fonction d'init de tab
+    std::array<function_init_ptr, 5> FuncInitTab = { initTabAleat, initTabPresqueTri, initTabPresqueTriDeb, initTabPresqueTriDebFin, initTabPresqueTriFin }; //Tableau des fonction d'initialisation
 
+    typedef unsigned int(*function_tri_ptr)(std::vector<int>& tab);//Définition du type du pointeur pour les fonction de tri
+    std::array<function_tri_ptr, 4> FuncTriTab = { triSelection, triBulles, triBullesOpti, triPeigne }; //Tableau des fonction de tri
 
+    out << "N"; // Entete N
+    for (int i = 0; i < 5; i++) //Boucle d'affichage de l'entete
     {
-        for (int i = 0; i<3;i++)
+        out << "; Aleat Sélect.; PresqueTri Sélect.; PresqueTriDeb Sélect.; PresqueTriDebFin Sélect.; PresqueTriFin Sélect;";
+    }
+    out << "N²; N*ln(N)\n"; //Entete N² 
+
+
+    for (int i = 2; i <= nbrCol; i++)
+    {
+        out << i << ";";
+        for (int j = 0; j < 4; j++)
         {
-            out << "N; Aleat Sélect.; PresqueTri Sélect.; PresqueTriDeb Sélect.; PresqueTriDebFin Sélect.; PresqueTriFin Sélect;";
+            for (int k = 0; k < 5; k++) {
+                std::vector<int> FIT = FuncInitTab[k](i);
+                out << FuncTriTab[j](FIT) << ";";
+                verifTri(FIT);
+            }
+            out << ";";
         }
-        out << "N²; N*ln(N)\n";
-        
-        for (int i = 3; i < 100; i += 2)
+        for (int l = 0; l < 5; l++)
         {
-            std::vector<int> tabAleat = initTabAleat(i);
-            std::vector<int> tabPt = initTabPresqueTri(i);
-            std::vector<int> tabPtd = initTabPresqueTriDeb(i);
-            std::vector<int> tabPtdf = initTabPresqueTriDebFin(i);
-            std::vector<int> tabPtf = initTabPresqueTriFin(i);
-            out << i << ";";
-            out << triSelection(tabAleat) << ";";
-            out << triSelection(tabPt) << ";";
-            out << triSelection(tabPtd) << ";";
-            out << triSelection(tabPtdf) << ";";
-            out << triSelection(tabPtf) << ";";
-            verifTri(tabAleat);
-            verifTri(tabPt);
-            verifTri(tabPtd);
-            verifTri(tabPtdf);
-            verifTri(tabPtf);
-
-            tabAleat = initTabAleat(i);
-            tabPt = initTabPresqueTri(i);
-            tabPtd = initTabPresqueTriDeb(i);
-            tabPtdf = initTabPresqueTriDebFin(i);
-            tabPtf = initTabPresqueTriFin(i);
-            out << i << ";";
-            out << triBulles(tabAleat) << ";";
-            out << triBulles(tabPt) << ";";
-            out << triBulles(tabPtd) << ";";
-            out << triBulles(tabPtdf) << ";";
-            out << triBulles(tabPtf) << ";";
-            verifTri(tabAleat);
-            verifTri(tabPt);
-            verifTri(tabPtd);
-            verifTri(tabPtdf);
-            verifTri(tabPtf);
-
-            tabAleat = initTabAleat(i);
-            tabPt = initTabPresqueTri(i);
-            tabPtd = initTabPresqueTriDeb(i);
-            tabPtdf = initTabPresqueTriDebFin(i);
-            tabPtf = initTabPresqueTriFin(i);
-            out << i << ";";
-            out << triBullesOpti(tabAleat) << ";";
-            out << triBullesOpti(tabPt) << ";";
-            out << triBullesOpti(tabPtd) << ";";
-            out << triBullesOpti(tabPtdf) << ";";
-            out << triBullesOpti(tabPtf) << ";";
-            verifTri(tabAleat);
-            verifTri(tabPt);
-            verifTri(tabPtd);
-            verifTri(tabPtdf);
-            verifTri(tabPtf);
-        
-
-            out << i * i << ";";
-            out << i * log(i) << "\n";
+            std::vector<int> FIT = FuncInitTab[l](i);
+            out << triRapide(FIT, 0, FIT.size() - 1) << ";";
+            
         }
+
+        out << i * i << ";";
+        out << i * log(i) << "\n";
     }
 
 }
+
+
+
+    /*std::vector<int> tab = { '5', '7', '6', '2', '9', '1', '3' };
+
+    std::cout << choix_pivot(tab, 0, tab.size()-1);/
+
+
+
+    std::cout << tri_rapide(initTabAleat(25),0,25-1);*/
+

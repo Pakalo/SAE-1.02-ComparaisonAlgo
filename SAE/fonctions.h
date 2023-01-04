@@ -38,3 +38,8 @@ unsigned int triBullesOpti(std::vector<int> &tab);
 
 // Tri a peigne
 unsigned int triPeigne(std::vector<int> &tab);
+
+// Tri rapide
+unsigned int partitionner(std::vector<int> tab, int premier, int dernier, int pivot, unsigned int& cpt);
+unsigned int choixPivot(std::vector<int> tab, int premier, int dernier);
+unsigned int triRapide(std::vector<int> tab, int premier, int dernier);
