@@ -234,11 +234,11 @@ unsigned int triPeigne(std::vector<int> &tab)
 
 
 
-unsigned int partitionner(std::vector<int> tab, int premier, int dernier, int pivot, unsigned int& cpt)
+unsigned int partitionner(std::vector<int> &tab, int premier, int dernier, int pivot, unsigned int& cpt)
 {
     std::swap(tab[pivot], tab[dernier]);
     int j = premier;
-    for (size_t i = premier; i < dernier - 1; i++)
+    for (size_t i = premier; i <= dernier - 1; i++)
     {
         if (tab[i] <= tab[dernier])
         {
@@ -252,7 +252,7 @@ unsigned int partitionner(std::vector<int> tab, int premier, int dernier, int pi
 }
 
 
-unsigned int choixPivot(std::vector<int> tab, int premier, int dernier)
+unsigned int choixPivot(std::vector<int> &tab, int premier, int dernier)
 {
     //Initialisation de l'aléatoire
     std::srand(std::time(nullptr));
@@ -262,7 +262,7 @@ unsigned int choixPivot(std::vector<int> tab, int premier, int dernier)
 }
 
 
-unsigned int triRapide(std::vector<int> tab, int premier, int dernier)
+unsigned int triRapide(std::vector<int> &tab, int premier, int dernier)
 {
     unsigned int cpt = 0;
     if (premier < dernier)
@@ -274,4 +274,3 @@ unsigned int triRapide(std::vector<int> tab, int premier, int dernier)
     }
     return cpt;
 }
-
