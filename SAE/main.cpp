@@ -35,25 +35,28 @@ int main()
 
     for (int i = 2; i <= nbrCol; i++)
     {
-        out << i << ";";
+        out << i << ";"; //Ecrit l'indice N
+
+        //Parcours les 4 premiers algorithmes de tri
         for (int j = 0; j < 4; j++)
         {
+            //Parcours les algorithme de génération de tab, exécute l'algo de trie, et verifie le trie
             for (int k = 0; k < 5; k++) {
-                std::vector<int> fit = FuncInitTab[k](i);
-                out << FuncTriTab[j](fit) << ";";
-                verifTri(fit);
+                std::vector<int> fit = FuncInitTab[k](i); //Crée un tableau qui contient la génération
+                out << FuncTriTab[j](fit) << ";"; // Inscrit et fait le trie
+                verifTri(fit); //Verif le tri
             }
             out << ";";
         }
         for (int l = 0; l < 5; l++)
         {
-            std::vector<int> FIT = FuncInitTab[l](i);
-            out << triRapide(FIT, 0, i - 1)  << ";";
-            verifTri(FIT);
+            std::vector<int> FIT = FuncInitTab[l](i);//Crée un tableau qui contient la génération
+            out << triRapide(FIT, 0, i - 1)  << ";"; //Fait le tri rapide
+            verifTri(FIT); //Verrifi le tri
         }
 
-        out << i * i << ";";
-        out << i * log(i) << "\n";
+        out << i * i << ";"; // Ajoute la colone N²
+        out << i * log(i) << "\n"; // Ajoute la colone n.ln(n)
     }
 
 }

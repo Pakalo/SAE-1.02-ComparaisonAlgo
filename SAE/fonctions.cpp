@@ -152,21 +152,22 @@ unsigned int triSelection(std::vector<int> &tab)
 
 unsigned int triBulles(std::vector<int> &tab)
 {
-    unsigned int cpt = 0;
-    for (size_t i = 0; i < tab.size() - 1; i++) // Double boucle pour parcourir chaque élément du tableau
+    unsigned int cpt = 0; // initialisation compteur de comparaison
+
+    for (size_t i = 0; i < tab.size() - 1; i++) //Double boucle qui parcours les éléments du tableau
     {
         for (size_t j = 0; j < tab.size() - i - 1; j++)
         {
-            cpt++;
+            cpt++; //Incrémentation du compteur
+
+            //Echange les l'élément actuel et le plus petit si ce l'élément actuel est plus petit
             if (tab[j + 1] < tab[j])
             {
                 std::swap(tab[j + 1], tab[j]);
             }
         }
     }
-
-    verifTri(tab);
-    return cpt;
+    return cpt; //Renvoie le nbr de comparaison
 }
 
 
@@ -175,25 +176,33 @@ unsigned int triBulles(std::vector<int> &tab)
 */
 unsigned int triBullesOpti(std::vector<int> &tab)
 {
-    unsigned int cpt = 0;
+    unsigned int cpt = 0;// initialisation compteur de comparaison
+
+    //Boucle qui parcours les élément de tableau à l'envers
     for (size_t i = tab.size() - 1; i > 0; i--)
     {
-        bool tableau_trie = true;
+        bool tableau_trie = true; //Bool pour inscrire si le tableau est trié ou non
+
+        //boucle qui parcours pour comparer les éléments
         for (int j = 0; j < i; j++)
         {
-            cpt++;
+            cpt++; // Incrémentation du compteur de comparaison
+
+
+            //Si précédent plus petit que l'élem actuel on échange et on met tableau trié à false
             if (tab[j + 1] < tab[j])
             {
                 std::swap(tab[j + 1], tab[j]);
                 tableau_trie = false;
             }
         }
+        //Sort de la boucle si le tableau est trié
         if (tableau_trie)
         {
             break;
         }
     }
-    return cpt;
+    return cpt; //Renvoie le nbr de comparaison
 }
 
 
@@ -203,52 +212,63 @@ unsigned int triBullesOpti(std::vector<int> &tab)
 */
 unsigned int triPeigne(std::vector<int> &tab)
 {
-    size_t intervalle = tab.size();
-    bool echange;
-    int cpt = 0;
+    size_t intervalle = tab.size(); // Défini l'intervale entre les éléments à comparer
+    bool echange; // Contient si il y a eu un échange durant le dernier parcours
+    int cpt = 0; // Initialisation compteur de comparaison
 
+
+    //Boucle principale
     while (intervalle > 1 || echange == true)
     {
-        intervalle = int(intervalle / 1.3);
+        intervalle = int(intervalle / 1.3); //Calcule l'intervale pour le prochain parcours
+        
+        // Verrifie si l'intervalle est au moins de 1
         if (intervalle < 1)
-            intervalle = 1;
+            intervalle = 1; 
 
-        int i = 0;
-        echange = false;
+        int i = 0; //Indice de l'élément en cours
+        echange = false; // réinitialise la valeur d'échange
 
+
+        // parcour le tab et compare les élément selon l'intervale
         while (i < tab.size() - intervalle)
         {
-            cpt++;
+            cpt++; // Incrémentation du compteur de comparaison
+
+            //echange l'élément suivant et l'élément en cours si le suivant est plus petit que celui en cours et l'indique grâce au booléen échange
             if (tab[i] > tab[i + intervalle])
             {
                 std::swap(tab[i], tab[i + intervalle]);
                 echange = true;
             }
-            i = i + 1;
+            i = i + 1; //Passage à l'élément suivant
         }
     }
 
-    verifTri(tab);
-    return cpt;
+    return cpt;//Renvoie le nbr de comparaison
 }
 
 
 
 unsigned int partitionner(std::vector<int> &tab, int premier, int dernier, int pivot, unsigned int& cpt)
 {
+    //Echange pivot avec le précédent
     std::swap(tab[pivot], tab[dernier]);
-    int j = premier;
+    int j = premier; //indice de pivot
+
+    //Parcours le tableau et partitione en fonction du pivot
     for (size_t i = premier; i <= dernier - 1; i++)
     {
+        //Si l'élément est plus petit ou égal au pivot on incrémente l'indice du pivot et on échange l'élément avec le pivot
         if (tab[i] <= tab[dernier])
         {
             std::swap(tab[i], tab[j]);
             j++;
         }
-        cpt++;
+        cpt++;// Incrémentation du compteur de comparaison
     }
-    std::swap(tab[dernier], tab[j]);
-    return j;
+    std::swap(tab[dernier], tab[j]); // Echange le pivot et l'élément à sa position finale
+    return j; //Retourne le pivot
 }
 
 
@@ -264,13 +284,17 @@ unsigned int choixPivot(std::vector<int> &tab, int premier, int dernier)
 
 unsigned int triRapide(std::vector<int> &tab, int premier, int dernier)
 {
-    unsigned int cpt = 0;
+    unsigned int cpt = 0; // Initialisation compteur de comparaison
+   
+    //Verifie que la taille du tableau est supérieur au dernier
     if (premier < dernier)
     {
+        //Choisis et partitionne un pivot
         int pivot = choixPivot(tab, premier, dernier);
         pivot = partitionner(tab, premier, dernier, pivot, cpt);
+        //Fait le trie rapide de maniére récursive
         cpt += triRapide(tab, premier, pivot - 1);
         cpt += triRapide(tab, pivot + 1, dernier);
     }
-    return cpt;
+    return cpt;//Renvoie le nbr de comparaison
 }
